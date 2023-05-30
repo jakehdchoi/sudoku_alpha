@@ -13,7 +13,6 @@ public class GridSquare : Selectable
 
     // }
 
-    // Update is called once per frame
     void Update()
     {
 

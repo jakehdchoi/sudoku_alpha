@@ -38,14 +38,17 @@ public class SudokuGrid : MonoBehaviour
     {
         // 0,1,2,3,4,5,6,
         // 7,8, ...
-
+        int square_index = 0;
         for (int row = 0; row < rows; row++)
         {
             for (int column = 0; column < columns; column++)
             {
                 grid_squares_.Add(Instantiate(grid_square) as GameObject);
+                grid_squares_[grid_squares_.Count - 1].GetComponent<GridSquare>().SetSquareIndex(square_index);
                 grid_squares_[grid_squares_.Count - 1].transform.SetParent(this.transform); // instantiaate this game object as a child of the object holding this script
                 grid_squares_[grid_squares_.Count - 1].transform.localScale = new Vector3(square_scale, square_scale, square_scale);
+
+                square_index++;
             }
         }
     }

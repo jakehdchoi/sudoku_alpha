@@ -31,6 +31,7 @@ public class Lives : MonoBehaviour
     {
         if (lives_ <= 0)
         {
+            GameEvents.OnGameOverMethod();
             game_over_popup.SetActive(true);
         }
     }

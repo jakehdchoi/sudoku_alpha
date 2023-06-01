@@ -8,6 +8,8 @@ using UnityEngine.EventSystems;
 public class GridSquare : Selectable, IPointerClickHandler, ISubmitHandler, IPointerUpHandler, IPointerExitHandler
 {
     public GameObject number_text;
+    public List<GameObject> number_notes;
+    private bool note_active;
     private int number_ = 0;
     private int correct_number_ = 0;
 
@@ -35,12 +37,68 @@ public class GridSquare : Selectable, IPointerClickHandler, ISubmitHandler, IPoi
     void Start()
     {
         selected_ = false;
+        note_active = false;
+        SetNoteNumberValue(0);
     }
 
-    void Update()
+    public List<string> GetSquareNotes()
     {
+        List<string> notes = new List<string>();
 
+        foreach (var number in number_notes)
+        {
+            notes.Add(number.GetComponent<Text>().text);
+        }
+        return notes;
     }
+
+    private void SetClearEmptyNotes()
+    {
+        foreach (var number in number_notes)
+        {
+            if (number.GetComponent<Text>().text == "0")
+                number.GetComponent<Text>().text = " ";
+        }
+    }
+
+    private void SetNoteNumberValue(int value)
+    {
+        foreach (var number in number_notes)
+        {
+            if (value <= 0)
+                number.GetComponent<Text>().text = " ";
+            else
+                number.GetComponent<Text>().text = value.ToString();
+        }
+    }
+
+    private void SetNoteSingleNumberValue(int value, bool force_update = false)
+    {
+        if (note_active == false && force_update == false)
+            return;
+
+        if (value <= 0)
+            number_notes[value - 1].GetComponent<Text>().text = " ";
+        else
+        {
+            if (number_notes[value - 1].GetComponent<Text>().text == " " || force_update)
+                number_notes[value - 1].GetComponent<Text>().text = value.ToString();
+            else
+                number_notes[value - 1].GetComponent<Text>().text = " ";
+        }
+    }
+
+    public void SetGridNotes(List<int> notes)
+    {
+        foreach (var note in notes)
+            SetNoteSingleNumberValue(note, force_update: true);
+    }
+
+    public void OnNotesActive(bool active)
+    {
+        note_active = active;
+    }
+
 
     public void DisplayText()
     {
@@ -74,13 +132,14 @@ public class GridSquare : Selectable, IPointerClickHandler, ISubmitHandler, IPoi
     {
         GameEvents.OnUpdateSquareNumber += OnSetNumber;
         GameEvents.OnSquareSelected += OnSquareSelected;
+        GameEvents.OnNotesActive += OnNotesActive;
     }
 
     private void OnDisable()
     {
         GameEvents.OnUpdateSquareNumber -= OnSetNumber;
         GameEvents.OnSquareSelected -= OnSquareSelected;
-
+        GameEvents.OnNotesActive -= OnNotesActive;
 
     }
 
@@ -88,27 +147,31 @@ public class GridSquare : Selectable, IPointerClickHandler, ISubmitHandler, IPoi
     {
         if (selected_ && has_default_value_ == false)
         {
-            SetNumber(number);
-
-            if (number_ != correct_number_)
+            if (note_active == true && has_wrong_value_ == false)
+                SetNoteSingleNumberValue(number);
+            else if (note_active == false)
             {
-                has_wrong_value_ = true;
-                var colors = this.colors;
-                colors.normalColor = Color.red;
-                this.colors = colors;
+                SetNoteNumberValue(0);
+                SetNumber(number);
 
-                GameEvents.OnWrongNumberMethod();
+                if (number_ != correct_number_)
+                {
+                    has_wrong_value_ = true;
+                    var colors = this.colors;
+                    colors.normalColor = Color.red;
+                    this.colors = colors;
+
+                    GameEvents.OnWrongNumberMethod();
+                }
+                else
+                {
+                    has_wrong_value_ = false;
+                    has_default_value_ = true;
+                    var colors = this.colors;
+                    colors.normalColor = Color.white;
+                    this.colors = colors;
+                }
             }
-            else
-            {
-                has_wrong_value_ = false;
-                has_default_value_ = true;
-                var colors = this.colors;
-                colors.normalColor = Color.white;
-                this.colors = colors;
-
-            }
-
         }
     }
 

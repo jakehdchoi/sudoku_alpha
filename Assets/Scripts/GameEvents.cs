@@ -52,4 +52,15 @@ public class GameEvents : MonoBehaviour
             OnNotesActive(active);
     }
 
+    // ****************************************************
+
+    public delegate void ClearNumber();
+
+    public static event ClearNumber OnClearNumber;
+
+    public static void OnClearNumberMethod()
+    {
+        if (OnClearNumber != null)
+            OnClearNumber();
+    }
 }

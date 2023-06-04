@@ -125,6 +125,7 @@ public class SudokuGrid : MonoBehaviour
     private void OnEnable()
     {
         GameEvents.OnSquareSelected += OnSquareSelected;
+        // 이 부분 마음에 안든다.. 숫자를 입력 할 때다 보드 전체를 체크하면 어떻하냐 
         GameEvents.OnUpdateSquareNumber += CheckBoardCompleted;
     }
 

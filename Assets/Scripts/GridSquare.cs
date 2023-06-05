@@ -18,6 +18,8 @@ public class GridSquare : Selectable, IPointerClickHandler, ISubmitHandler, IPoi
     private bool has_default_value_ = false;
     private bool has_wrong_value_ = false;
 
+    public int GetSquareNumber() { return number_; }
+
     public bool IsCorrectNumberSet() { return number_ == correct_number_; }
     public bool HasWrongValue() { return has_wrong_value_; }
     public void SetHasDefaultValue(bool has_default) { has_default_value_ = has_default; }

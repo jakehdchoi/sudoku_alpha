@@ -12,7 +12,7 @@ public class Config : MonoBehaviour
     private static string dir = Directory.GetCurrentDirectory();
 #endif
 
-    private static string file = @"\board_data.ini";
+    private static string file = @"/board_data.ini";
     private static string path = dir + file;
 
     public static void DeleteDataFile()
@@ -40,7 +40,7 @@ public class Config : MonoBehaviour
         writer.WriteLine(current_time);
         writer.WriteLine(level_string);
         writer.WriteLine(error_number_string);
-        writer.WriteLine(board_index);
+        writer.WriteLine(board_index_string);
         writer.WriteLine(unsolved_string);
         writer.WriteLine(solved_string);
 

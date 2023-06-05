@@ -48,4 +48,14 @@ public class MenuButtons : MonoBehaviour
         GameSettings.Instance.SetPaused(paused);
     }
 
+    public void ContinuePreviousGame(bool continue_game)
+    {
+        GameSettings.Instance.SetContinuePreviousGame(continue_game);
+    }
+
+    public void ExitAfterWon()
+    {
+        GameSettings.Instance.SetExitAfterWon(true);
+    }
+
 }

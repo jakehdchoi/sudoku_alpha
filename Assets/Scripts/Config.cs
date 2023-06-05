@@ -185,7 +185,7 @@ public class Config : MonoBehaviour
         float time = -1.0f;
         string line;
 
-        StringReader file = new StringReader(path);
+        StreamReader file = new StreamReader(path);
         while ((line = file.ReadLine()) != null)
         {
             string[] word = line.Split(":");
@@ -202,7 +202,7 @@ public class Config : MonoBehaviour
         int errors = 0;
         string line;
 
-        StringReader file = new StringReader(path);
+        StreamReader file = new StreamReader(path);
         while ((line = file.ReadLine()) != null)
         {
             string[] word = line.Split(":");

@@ -23,7 +23,11 @@ public class Clock : MonoBehaviour
         instance = this;
 
         textClock = GetComponent<Text>();
-        delta_time = 0;
+
+        if (GameSettings.Instance.GetContinuePreviousGame())
+            delta_time = Config.ReadGameTime();
+        else
+            delta_time = 0;
     }
 
     void Start()

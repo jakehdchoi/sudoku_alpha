@@ -184,6 +184,8 @@ public class SudokuGrid : MonoBehaviour
         }
         else
             Config.DeleteDataFile();
+
+        GameSettings.Instance.SetExitAfterWon(false);
     }
 
 

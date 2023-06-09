@@ -150,13 +150,13 @@ public class SudokuGrid : MonoBehaviour
     {
         GameEvents.OnSquareSelected += OnSquareSelected;
         // 이 부분 마음에 안든다.. 숫자를 입력 할 때다 보드 전체를 체크하면 어떻하냐 
-        GameEvents.OnUpdateSquareNumber += CheckBoardCompleted;
+        GameEvents.OnCheckBoardCompleted += CheckBoardCompleted;
     }
 
     private void OnDisable()
     {
         GameEvents.OnSquareSelected -= OnSquareSelected;
-        GameEvents.OnUpdateSquareNumber -= CheckBoardCompleted;
+        GameEvents.OnCheckBoardCompleted -= CheckBoardCompleted;
 
         // **********************************************************
         var solved_data = SudokuData.Instance.sudoku_game[GameSettings.Instance.GetGameMode()][selected_grid_data].solved_data;
@@ -213,7 +213,7 @@ public class SudokuGrid : MonoBehaviour
         SetSquaresColor(square, line_highlight_color);
     }
 
-    private void CheckBoardCompleted(int number)
+    private void CheckBoardCompleted()
     {
         foreach (var square in grid_squares_)
         {
@@ -231,7 +231,7 @@ public class SudokuGrid : MonoBehaviour
             var comp = square.GetComponent<GridSquare>();
             comp.SetCorrectNumber();
         }
-        CheckBoardCompleted(0);
+        CheckBoardCompleted();
     }
 
 }

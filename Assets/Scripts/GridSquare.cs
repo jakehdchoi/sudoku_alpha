@@ -165,6 +165,17 @@ public class GridSquare : Selectable, IPointerClickHandler, ISubmitHandler, IPoi
         GameEvents.OnClearNumber -= OnClearNumber;
     }
 
+    private void OnGameOver()
+    {
+        if (number_ != 0 && number_ != correct_number_)
+        {
+            has_wrong_value_ = false;
+            number_ = 0;
+            DisplayText();
+        }
+        SetSquaresColor(Color.white);
+    }
+
     public void OnClearNumber()
     {
         if (selected_ && !has_default_value_)
@@ -206,6 +217,7 @@ public class GridSquare : Selectable, IPointerClickHandler, ISubmitHandler, IPoi
                     this.colors = colors;
                 }
             }
+            GameEvents.CheckBoardCompletedMethod();
         }
     }
 

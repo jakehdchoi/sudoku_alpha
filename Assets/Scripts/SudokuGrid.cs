@@ -140,9 +140,9 @@ public class SudokuGrid : MonoBehaviour
     {
         for (int index = 0; index < grid_squares_.Count; index++)
         {
+            grid_squares_[index].GetComponent<GridSquare>().SetHasDefaultValue(data.unsolved_data[index] != 0 && data.unsolved_data[index] == data.solved_data[index]);
             grid_squares_[index].GetComponent<GridSquare>().SetNumber(data.unsolved_data[index]);
             grid_squares_[index].GetComponent<GridSquare>().SetCorrectNumber(data.solved_data[index]);
-            grid_squares_[index].GetComponent<GridSquare>().SetHasDefaultValue(data.unsolved_data[index] != 0 && data.unsolved_data[index] == data.solved_data[index]);
         }
     }
 
@@ -206,11 +206,26 @@ public class SudokuGrid : MonoBehaviour
         var vertical_line = LineIndicator.instance.GetVerticalLine(square_index);
         var square = LineIndicator.instance.GetSquare(square_index);
 
-        SetSquaresColor(LineIndicator.instance.GetAllSquaresIndexes(), Color.white);
+        if (grid_squares_[square_index].GetComponent<GridSquare>().GetHasDefaultValue() == false)
+        {
+            SetSquaresColor(LineIndicator.instance.GetAllSquaresIndexes(), Color.white);
 
-        SetSquaresColor(horizontal_line, line_highlight_color);
-        SetSquaresColor(vertical_line, line_highlight_color);
-        SetSquaresColor(square, line_highlight_color);
+            SetSquaresColor(horizontal_line, line_highlight_color);
+            SetSquaresColor(vertical_line, line_highlight_color);
+            SetSquaresColor(square, line_highlight_color);
+        }
+        else
+        {
+            foreach (var gridSquare in grid_squares_)
+            {
+                var comp = gridSquare.GetComponent<GridSquare>();
+                if (comp.HasWrongValue() == false && comp.IsSelected() == false)
+                {
+                    comp.SetSquaresColor(Color.white);
+                }
+            }
+        }
+
     }
 
     private void CheckBoardCompleted()

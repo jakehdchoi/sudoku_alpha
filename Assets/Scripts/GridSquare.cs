@@ -127,6 +127,11 @@ public class GridSquare : Selectable, IPointerClickHandler, ISubmitHandler, IPoi
             number_text.GetComponent<Text>().text = " ";
         else
             number_text.GetComponent<Text>().text = number_.ToString();
+
+        if (has_default_value_)
+        {
+            number_text.GetComponent<Text>().fontStyle = FontStyle.Bold;
+        }
     }
 
     public void SetNumber(int number)
